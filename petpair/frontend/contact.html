@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - PetPair</title>
+  <link rel="stylesheet" href="contact.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">PetPair</div>
+    <input type="checkbox" id="toggle" class="navbar-toggle" />
+    <label for="toggle" class="hamburger">&#9776;</label>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="petform.html">Find a Pet</a></li>
+      <li><a href="pets.html">Pets</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li id="auth-link"><a href="login.html">Login</a></li>
+
+    </ul>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+    <div class="contact-container">
+      <h2>Contact Us</h2>
+      <form class="contact-form" action="#" method="post">
+        <label for="name">Name:
+          <input type="text" id="name" name="name" required />
+        </label>
+
+        <label for="email">Email:
+          <input type="email" id="email" name="email" required />
+        </label>
+
+        <label for="message">Message:
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </label>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="petform.html">Find a Pet</a>
+      <a href="admin.html">Admin</a>
+      <a href="profile.html">Profile</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2025 PetPair. All rights reserved.</p>
+  </footer>
+  <script>
+  const authLinkLi = document.getElementById('auth-link');
+
+  function updateAuthLink() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      authLinkLi.innerHTML = '<a href="#" id="logoutLink">Logout</a>';
+      document.getElementById('logoutLink').addEventListener('click', () => {
+        localStorage.removeItem('user');
+        alert('Logged out successfully.');
+        window.location.href = 'index.html';
+      });
+    } else {
+      authLinkLi.innerHTML = '<a href="login.html">Login</a>';
+    }
+  }
+
+  updateAuthLink();
+</script>
+
+</body>
+</html>

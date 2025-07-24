@@ -1,0 +1,220 @@
+/* General page styles for body and layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: #4B2E2E;
+  background: linear-gradient(135deg, #e3dcd9, #e7e3dc, #f4f0cc);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+/* Container with semi-transparent coffee brown background */
+.find-pet-container {
+  background-color: rgba(123, 78, 78, 0.85); /* coffee brown with opacity */
+  color: #F5F5DC;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Heading */
+.find-pet-container h2 {
+  color: #FFEFD5; /* light beige heading */
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+/* Form labels */
+.find-pet-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #F5F5DC;
+}
+
+/* Select and input styles */
+.find-pet-form select,
+.find-pet-form input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #FFEFD5; /* light beige border */
+  border-radius: 5px;
+  background-color: #6B4C4C; /* lighter coffee brown */
+  color: #F5F5DC;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.find-pet-form select:hover,
+.find-pet-form input[type="text"]:hover,
+.find-pet-form select:focus,
+.find-pet-form input[type="text"]:focus {
+  border-color: #EFE5DA; /* lighter cream on hover/focus */
+  outline: none;
+}
+
+/* Submit button */
+.find-pet-form button {
+  background-color: #FFEFD5; /* light beige button */
+  color: #4B2E2E; /* coffee brown text */
+  font-weight: 700;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.find-pet-form button:hover {
+  background-color: #EFE5DA; /* lighter cream on hover */
+  color: #3B2323; /* darker brown */
+}
+
+/* Navbar and footer styles (copy from your navbar.css and footer.css) */
+.navbar {
+  background-color: #4B2E2E;
+  color: #F5F5DC;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  position: relative;
+  flex-wrap: wrap;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #FFEFD5;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a,
+.navbar-links li button {
+  color: #F5F5DC;
+  text-decoration: none;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.navbar-links li a:hover,
+.navbar-links li button:hover {
+  color: #EFE5DA;
+}
+
+.hamburger {
+  font-size: 1.8rem;
+  display: none;
+  cursor: pointer;
+  color: #FFEFD5;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #F5F5DC;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.logout-btn:hover {
+  color: #EFE5DA;
+}
+
+.suggestion-box {
+  margin-top: 20px;
+  background-color: #f9f5f1; 
+  border: 1px solid #b79b7a;  
+  border-radius: 6px;
+  padding: 15px;
+  color: #5a3e2b; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.suggestion-box h4 {
+  margin-top: 0;
+  color: #7a5430; 
+}
+.suggestion-box ul {
+  margin-left: 20px;
+}
+.suggestion-box li {
+  margin-bottom: 6px;
+}
+
+
+@media (max-width: 768px) {
+  .navbar-links {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    background-color: #4B2E2E;
+    padding: 1rem 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .navbar-toggle:checked ~ .navbar-links {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+.footer-container {
+  background-color: #4B2E2E;
+  color: #F5F5DC;
+  text-align: center;
+  padding: 1rem 0;
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: auto;
+}
+
+.footer-links {
+  margin-bottom: 0.7rem;
+}
+
+.footer-links a {
+  color: #F5F5DC;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #EFE5DA;
+}

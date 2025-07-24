@@ -1,0 +1,445 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Add Pet | PetPair</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="navbar.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #4B2E2E;
+      background: #fff;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      width: 90%;
+    }
+  </style>
+</head>
+<body>
+ <nav class="navbar">
+    <div class="navbar-brand">PetPair</div>
+    <input type="checkbox" id="toggle" class="navbar-toggle" />
+    <label for="toggle" class="hamburger">&#9776;</label>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="findpet.html">Find a Pet</a></li>
+      <li><a href="pets.html">Pets</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li id="auth-link"><a href="login.html">Login</a></li>
+      
+    </ul>
+  </nav>
+
+  <main id="adminContent" style="display:none;">
+    <h2 style="text-align: center;">Add a New Pet</h2>
+    <form id="petForm" class="admin-form" enctype="multipart/form-data">
+      <label>
+        Pet Name:
+        <input type="text" name="name" id="name" required />
+      </label>
+
+      <label>
+        Type:
+        <select name="type" id="type" required>
+          <option value="">--Select--</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Rabbit">Rabbit</option>
+        </select>
+      </label>
+
+      <label>
+        Size:
+        <select name="size" id="size" required>
+          <option value="">--Select--</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+      </label>
+
+      <label>
+        Temperament:
+        <select name="temperament" id="temperament" required>
+          <option value="">--Select--</option>
+          <option value="Calm">Calm</option>
+          <option value="Playful">Playful</option>
+          <option value="Protective">Protective</option>
+        </select>
+      </label>
+
+      <label>
+        Description:
+        <textarea name="description" id="description" rows="3" required></textarea>
+      </label>
+
+        <label>
+    Maintenance Cost (₹/month):
+    <input type="number" name="maintenanceCost" id="maintenanceCost" required />
+  </label>
+
+      <label>
+        Pet Image:
+        <input type="file" id="image" name="image" accept="image/*" required />
+      </label>
+
+      <div id="imagePreview" style="margin-top: 0.5rem;"></div>
+
+   
+
+      <button type="submit">Add Pet</button>
+    </form>
+  </main>
+
+  <main id="notAuthorized" style="display:none; text-align:center; padding: 2rem;">
+    <h2>Access Denied</h2>
+    <p>You must be logged in as an admin to view this page.</p>
+    <p><a href="login.html">Go to Login</a></p>
+  </main>
+
+  
+  <footer class="footer-container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="findpet.html">Find a Pet</a>
+      <a href="admin.html">Admin</a>
+      <a href="profile.html">Profile</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2025 PetPair. All rights reserved.</p>
+  </footer>
+
+  <script> 
+     // Check user role from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    const adminContent = document.getElementById('adminContent');
+    const notAuth = document.getElementById('notAuthorized');
+
+    if (user && user.role === 'admin') {
+      adminContent.style.display = 'block';
+      notAuth.style.display = 'none';
+    } else {
+      adminContent.style.display = 'none';
+      notAuth.style.display = 'block';
+    }
+
+    // Image preview for upload
+    const imageInput = document.getElementById('image');
+    const previewDiv = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function() {
+      previewDiv.innerHTML = '';
+      const file = this.files[0];
+      if (file) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '10px';
+        img.style.border = '1px solid #ddd';
+        previewDiv.appendChild(img);
+      }
+    });
+
+    // Mock submit handler
+ document.getElementById('petForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const type = document.getElementById('type').value;
+  const size = document.getElementById('size').value;
+  const temperament = document.getElementById('temperament').value;
+  const description = document.getElementById('description').value.trim();
+  const maintenanceCost = document.getElementById('maintenanceCost').value.trim();
+  const imageInput = document.getElementById('image');
+
+  if (!imageInput.files[0]) {
+    alert('Please upload an image.');
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const imageDataUrl = event.target.result;
+
+    const savedPets = JSON.parse(localStorage.getItem('pets')) || [];
+
+    const newPet = {
+      name,
+      type,
+      size,
+      temperament,
+      description,
+      maintenanceCost,
+      image: imageDataUrl
+    };
+
+    savedPets.push(newPet);
+    localStorage.setItem('pets', JSON.stringify(savedPets));
+
+    alert('Pet added successfully!');
+    document.getElementById('petForm').reset();
+    document.getElementById('imagePreview').innerHTML = '';
+  };
+
+  reader.readAsDataURL(imageInput.files[0]);
+});
+
+    const authLinkLi = document.getElementById('auth-link');
+
+    function updateAuthLink() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        authLinkLi.innerHTML = '<a href="#" id="logoutLink">Logout</a>';
+        document.getElementById('logoutLink').addEventListener('click', () => {
+          localStorage.removeItem('user');
+          alert('Logged out successfully.');
+          window.location.href = 'index.html';
+        });
+      } else {
+        authLinkLi.innerHTML = '<a href="login.html">Login</a>';
+      }
+    }
+
+    updateAuthLink();
+
+
+  </script>
+</body>
+</html> 
+
+
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Add Pet | PetPair</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="navbar.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #4B2E2E;
+      background: #fff;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      width: 90%;
+    }
+  </style>
+</head>
+<body>
+ <nav class="navbar">
+    <div class="navbar-brand">PetPair</div>
+    <input type="checkbox" id="toggle" class="navbar-toggle" />
+    <label for="toggle" class="hamburger">&#9776;</label>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="findpet.html">Find a Pet</a></li>
+      <li><a href="pets.html">Pets</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li id="auth-link"><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <main id="adminContent" style="display:none;">
+    <h2 style="text-align: center;">Add a New Pet</h2>
+    <form id="petForm" class="admin-form" enctype="multipart/form-data">
+      <label>
+        Pet Name:
+        <input type="text" name="name" id="name" required />
+      </label>
+
+      <label>
+        Type:
+        <select name="type" id="type" required>
+          <option value="">--Select--</option>
+          <option value="Dog">Dog</option>
+          <option value="Cat">Cat</option>
+          <option value="Rabbit">Rabbit</option>
+        </select>
+      </label>
+
+      <label>
+        Size:
+        <select name="size" id="size" required>
+          <option value="">--Select--</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+        </select>
+      </label>
+
+      <label>
+        Temperament:
+        <select name="temperament" id="temperament" required>
+          <option value="">--Select--</option>
+          <option value="Calm">Calm</option>
+          <option value="Playful">Playful</option>
+          <option value="Protective">Protective</option>
+        </select>
+      </label>
+
+      <label>
+        Description:
+        <textarea name="description" id="description" rows="3" required></textarea>
+      </label>
+
+      <label>
+        Maintenance Cost (₹/month):
+        <input type="number" name="maintenanceCost" id="maintenanceCost" required />
+      </label>
+
+      <label>
+        Pet Image:
+      <input type="file" id="image" name="image" accept="image/*" required /> 
+      </label>
+      <div id="imagePreview" style="margin-top: 0.5rem;"></div> 
+      </label>
+
+      <button type="submit">Add Pet</button>
+    </form>
+  </main>
+
+  <main id="notAuthorized" style="display:none; text-align:center; padding: 2rem;">
+    <h2>Access Denied</h2>
+    <p>You must be logged in as an admin to view this page.</p>
+    <p><a href="login.html">Go to Login</a></p>
+  </main>
+
+  <footer class="footer-container">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="findpet.html">Find a Pet</a>
+      <a href="admin.html">Admin</a>
+      <a href="profile.html">Profile</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+    <p>© 2025 PetPair. All rights reserved.</p>
+  </footer>
+
+  <script>
+   
+    const user = JSON.parse(localStorage.getItem('user'));
+    const adminContent = document.getElementById('adminContent');
+    const notAuth = document.getElementById('notAuthorized');
+
+    if (user && user.role === 'admin') {
+      adminContent.style.display = 'block';
+      notAuth.style.display = 'none';
+    } else {
+      adminContent.style.display = 'none';
+      notAuth.style.display = 'block';
+    }
+
+     const imageInput = document.getElementById('image');
+    const previewDiv = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function() {
+      previewDiv.innerHTML = '';
+      const file = this.files[0];
+      if (file) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '10px';
+        img.style.border = '1px solid #ddd';
+        previewDiv.appendChild(img);
+      }
+    });
+    // Submit handler for adding pet
+    document.getElementById('petForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!user || user.role !== 'admin') {
+        alert('You are not authorized.');
+        return;
+      }
+
+     
+  
+
+            const formData = new FormData();
+      formData.append('name', document.getElementById('name').value.trim());
+      formData.append('type', document.getElementById('type').value);
+      formData.append('size', document.getElementById('size').value);
+      formData.append('temperament', document.getElementById('temperament').value);
+      formData.append('description', document.getElementById('description').value.trim());
+      formData.append('maintenanceCost', Number(document.getElementById('maintenanceCost').value));
+      formData.append('image', imageInput.files[0]);
+      try {
+        const res = await fetch('http://localhost:5000/api/pets', {
+          method: 'POST',
+
+        headers: {
+            'Authorization': 'Bearer ' + user.token
+        
+          },
+          body: formData
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          alert('Error: ' + (err.message || 'Failed to add pet.'));
+          return;
+        }
+
+        alert('Pet added successfully!');
+        this.reset();
+        const oldInput = document.getElementById('image');
+const newInput = oldInput.cloneNode(true);
+oldInput.parentNode.replaceChild(newInput, oldInput);
+
+document.getElementById('imagePreview').innerHTML = '';
+
+
+      } catch (error) {
+        alert('Network error: ' + error.message);
+      }
+    });
+
+    // Auth link toggle
+    const authLinkLi = document.getElementById('auth-link');
+    function updateAuthLink() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        authLinkLi.innerHTML = '<a href="#" id="logoutLink">Logout</a>';
+        document.getElementById('logoutLink').addEventListener('click', () => {
+          localStorage.removeItem('user');
+          alert('Logged out successfully.');
+          window.location.href = 'index.html';
+        });
+      } else {
+        authLinkLi.innerHTML = '<a href="login.html">Login</a>';
+      }
+    }
+    updateAuthLink();
+  </script>
+</body>
+</html>
