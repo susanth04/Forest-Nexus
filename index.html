@@ -385,6 +385,13 @@
         function displayProcessingResults(results, batchKey) {
             let html = '<h3>🎯 Processing Results</h3>';
             
+            // Ensure results is an array
+            if (!Array.isArray(results)) {
+                console.error('Results is not an array:', results);
+                showError('Invalid response format: results is not an array');
+                return;
+            }
+            
             // Add batch download section
             if (batchKey) {
                 html += `
@@ -398,7 +405,10 @@
                 `;
             }
             
-            results.forEach((result, index) => {
+            if (results.length === 0) {
+                html += '<div class="no-results">No results to display.</div>';
+            } else {
+                results.forEach((result, index) => {
                 html += `
                     <div class="entity-section">
                         <h4>📄 ${result.filename}</h4>
@@ -409,12 +419,23 @@
                         </div>
                 `;
                 
+                // Handle both old (entities.gemini) and new (direct entities) structure
+                let entities;
                 if (result.entities.gemini) {
-                    const entities = result.entities.gemini;
-                    
+                    // Old structure
+                    entities = result.entities.gemini;
+                } else {
+                    // New hybrid structure - entities are directly available
+                    entities = result.entities;
+                }
+                
+                if (entities && Object.keys(entities).length > 0) {
                     // Display entities
                     Object.entries(entities).forEach(([category, items]) => {
-                        if (items && items.length > 0) {
+                        // Ensure items is an array
+                        const itemsArray = Array.isArray(items) ? items : (items ? [items] : []);
+                        
+                        if (itemsArray && itemsArray.length > 0) {
                             let displayName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
                             let icon = getEntityIcon(category);
                             
@@ -423,17 +444,22 @@
                                 <div class="entity-list">
                             `;
                             
-                            items.forEach(item => {
-                                html += `<div class="entity-item">• ${item}</div>`;
+                            itemsArray.forEach(item => {
+                                if (item && item.toString().trim()) {
+                                    html += `<div class="entity-item">• ${item}</div>`;
+                                }
                             });
                             
                             html += '</div>';
                         }
                     });
+                } else {
+                    html += '<div class="no-entities">No entities found in this document.</div>';
                 }
                 
                 html += '</div>';
             });
+            }
             
             showResults(html);
         }
