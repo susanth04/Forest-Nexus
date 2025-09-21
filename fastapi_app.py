@@ -29,6 +29,13 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from google.cloud import vision
 from google.oauth2 import service_account
 
+# Google Translate API
+try:
+    from google.cloud import translate_v2 as translate
+    TRANSLATE_AVAILABLE = True
+except ImportError:
+    TRANSLATE_AVAILABLE = False
+
 # Import Google Generative AI (Gemini)
 try:
     import google.generativeai as genai
@@ -55,6 +62,11 @@ class Config:
     # File processing settings
     MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_SIZE_MB", "10"))
     MAX_TOTAL_SIZE_MB = int(os.getenv("MAX_TOTAL_SIZE_MB", "50"))
+    
+    # Translation settings
+    AUTO_TRANSLATE = os.getenv("AUTO_TRANSLATE", "True").lower() == "true"
+    SOURCE_LANGUAGE = os.getenv("SOURCE_LANGUAGE", "te")  # Telugu by default
+    TARGET_LANGUAGE = os.getenv("TARGET_LANGUAGE", "en")  # English by default
 
 # Initialize configuration
 config = Config()
@@ -181,6 +193,113 @@ class OCRProcessor:
         except Exception as e:
             print(f"PDF processing failed: {str(e)}")
             return None
+
+
+class TranslationService:
+    """Handle text translation using Google Translate API"""
+    
+    def __init__(self, credentials_path):
+        """Initialize Google Translate client"""
+        self.translate_client = None
+        self.credentials_path = credentials_path
+        self.load_translator()
+    
+    def load_translator(self):
+        """Initialize Google Translate client"""
+        if TRANSLATE_AVAILABLE:
+            try:
+                # Use the same credentials as Vision API
+                credentials = service_account.Credentials.from_service_account_file(self.credentials_path)
+                self.translate_client = translate.Client(credentials=credentials)
+                print("✅ Google Translate API initialized successfully")
+            except Exception as e:
+                print(f"⚠️ Google Translate initialization failed: {str(e)}")
+                self.translate_client = None
+        else:
+            print("⚠️ Google Translate API not available")
+    
+    def detect_language(self, text):
+        """Detect the language of input text"""
+        if not self.translate_client or not text.strip():
+            return None
+        
+        try:
+            # Only check first 1000 characters for efficiency
+            sample_text = text[:1000]
+            result = self.translate_client.detect_language(sample_text)
+            return result
+        except Exception as e:
+            print(f"Language detection failed: {str(e)}")
+            return None
+    
+    def translate_text(self, text, target_language='en', source_language=None):
+        """Translate text to target language"""
+        if not self.translate_client or not text.strip():
+            return text
+        
+        try:
+            # Split text into chunks for better processing
+            chunks = self.split_text_into_chunks(text, 4000)  # Google Translate limit
+            translated_chunks = []
+            
+            for chunk in chunks:
+                if source_language:
+                    result = self.translate_client.translate(
+                        chunk,
+                        target_language=target_language,
+                        source_language=source_language
+                    )
+                else:
+                    result = self.translate_client.translate(
+                        chunk,
+                        target_language=target_language
+                    )
+                translated_chunks.append(result['translatedText'])
+            
+            return '\n'.join(translated_chunks)
+            
+        except Exception as e:
+            print(f"Translation failed: {str(e)}")
+            return text  # Return original text if translation fails
+    
+    def split_text_into_chunks(self, text, max_length=4000):
+        """Split text into chunks while preserving sentences"""
+        if len(text) <= max_length:
+            return [text]
+        
+        chunks = []
+        sentences = text.split('.')
+        current_chunk = ""
+        
+        for sentence in sentences:
+            if len(current_chunk + sentence + '.') <= max_length:
+                current_chunk += sentence + '.'
+            else:
+                if current_chunk:
+                    chunks.append(current_chunk.strip())
+                current_chunk = sentence + '.'
+        
+        if current_chunk:
+            chunks.append(current_chunk.strip())
+        
+        return chunks
+    
+    def should_translate(self, text):
+        """Determine if text needs translation"""
+        if not config.AUTO_TRANSLATE:
+            return False
+        
+        detection = self.detect_language(text)
+        if detection and detection.get('language'):
+            detected_lang = detection['language']
+            confidence = detection.get('confidence', 0)
+            
+            print(f"Detected language: {detected_lang} (confidence: {confidence:.2f})")
+            
+            # Translate if detected language is not English and confidence is reasonable
+            return detected_lang != 'en' and confidence > 0.5
+        
+        return False
 
 
 class TextPreprocessor:
