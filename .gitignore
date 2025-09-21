@@ -1,0 +1,77 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.staging
+
+# Google Cloud credentials
+*.json
+!README.json
+sih-2025-472809-8e136fdd6e00.json
+google-credentials*.json
+service-account*.json
+
+# API Keys (in case they're stored in separate files)
+*api-key*
+*apikey*
+*.key
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Results storage (if using file-based storage)
+results/
+downloads/
+processed/
+
+# Node modules (if using any JS tools)
+node_modules/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRA Document Processor - API Interface</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        
+        .upload-section {
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-section:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .file-input {
+            margin: 20px 0;
+        }
+        
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+        }
+        
+        .download-section {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .download-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .download-btn.json {
+            background: #17a2b8;
+        }
+        
+        .download-btn.json:hover {
+            background: #138496;
+        }
+        
+        .error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .entity-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .entity-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .entity-list {
+            margin-left: 20px;
+        }
+        
+        .entity-item {
+            padding: 4px 0;
+            border-bottom: 1px dotted #dee2e6;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .status-healthy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .api-docs {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .api-docs a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .api-docs a:hover {
+            text-decoration: underline;
+        }
+        
+        .text-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #17a2b8;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ FRA Document OCR & AI Entity Recognition</h1>
+        
+        <div class="api-docs">
+            <p>📖 <a href="http://localhost:8000/docs" target="_blank">View API Documentation (Swagger UI)</a></p>
+            <div id="status-indicator"></div>
+        </div>
+        
+        <div class="upload-section">
+            <h3>📄 Upload FRA Documents</h3>
+            <p>Select images (PNG, JPG, JPEG) or PDF files containing FRA documents</p>
+            
+            <div class="file-input">
+                <input type="file" id="fileInput" multiple accept=".png,.jpg,.jpeg,.pdf">
+            </div>
+            
+            <div class="buttons">
+                <button onclick="processDocuments()">🤖 Full Analysis (OCR + AI NER)</button>
+                <button onclick="extractTextOnly()">📝 Extract Text Only</button>
+                <button onclick="checkHealth()">💊 Check API Health</button>
+                <button onclick="listAvailableResults()">📋 View Available Downloads</button>
+            </div>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000';
+        
+        // Check API health on page load
+        window.onload = function() {
+            checkHealth();
+        };
+        
+        async function checkHealth() {
+            try {
+                showLoading('Checking API health...');
+                const response = await fetch(`${API_BASE_URL}/`);
+                const data = await response.json();
+                
+                showResults(`
+                    <h3>🏥 API Health Status</h3>
+                    <p><span class="status-indicator ${data.status === 'healthy' ? 'status-healthy' : 'status-error'}">${data.status.toUpperCase()}</span></p>
+                    <p><strong>Gemini AI:</strong> ${data.gemini_available ? '✅ Available' : '❌ Not Available'}</p>
+                    <p><strong>Vision API:</strong> ${data.vision_api_available ? '✅ Available' : '❌ Not Available'}</p>
+                `);
+                
+                // Update status indicator
+                const statusDiv = document.getElementById('status-indicator');
+                statusDiv.innerHTML = `<span class="status-indicator ${data.status === 'healthy' ? 'status-healthy' : 'status-error'}">API Status: ${data.status}</span>`;
+                
+            } catch (error) {
+                showError(`Health check failed: ${error.message}`);
+            }
+        }
+        
+        async function listAvailableResults() {
+            try {
+                showLoading('Fetching available downloads...');
+                
+                const response = await fetch(`${API_BASE_URL}/list-results`);
+                const data = await response.json();
+                
+                if (data.available_results && data.available_results.length > 0) {
+                    let html = '<h3>📋 Available Downloads</h3>';
+                    html += `<p>Found ${data.count} processed result(s):</p>`;
+                    
+                    data.available_results.forEach(key => {
+                        let displayName = key.replace(/batch_|text_batch_/, '').replace(/\d{8}_\d{6}_/, '');
+                        let type = key.startsWith('text_') ? 'Text Only' : 'Full Analysis';
+                        let isBatch = key.includes('batch_');
+                        
+                        html += `
+                            <div class="download-section">
+                                <h4>${isBatch ? '📦' : '📄'} ${displayName} ${isBatch ? '(Batch)' : ''}</h4>
+                                <p><strong>Type:</strong> ${type}</p>
+                                <div class="download-buttons">
+                                    <a href="${API_BASE_URL}/download-results/${key}" class="download-btn json" download>📄 Download JSON</a>
+                                    <a href="${API_BASE_URL}/download-text/${key}" class="download-btn" download>📝 Download TXT</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    showResults(html);
+                } else {
+                    showResults('<h3>📋 Available Downloads</h3><p>No processed results found. Process some documents first!</p>');
+                }
+                
+            } catch (error) {
+                showError(`Failed to fetch available results: ${error.message}`);
+            }
+        }
+        
+        async function processDocuments() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                alert('Please select files to process');
+                return;
+            }
+            
+            const formData = new FormData();
+            for (let file of files) {
+                formData.append('files', file);
+            }
+            
+            try {
+                showLoading(`Processing ${files.length} document(s)...`);
+                
+                const response = await fetch(`${API_BASE_URL}/process-documents`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayProcessingResults(data.results, data.batch_key);
+                } else {
+                    showError(`Processing failed: ${data.message}`);
+                }
+                
+            } catch (error) {
+                showError(`Request failed: ${error.message}`);
+            }
+        }
+        
+        async function extractTextOnly() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                alert('Please select files to process');
+                return;
+            }
+            
+            const formData = new FormData();
+            for (let file of files) {
+                formData.append('files', file);
+            }
+            
+            try {
+                showLoading(`Extracting text from ${files.length} document(s)...`);
+                
+                const response = await fetch(`${API_BASE_URL}/extract-text`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayTextResults(data.results, data.batch_key);
+                } else {
+                    showError(`Text extraction failed: ${data.message}`);
+                }
+                
+            } catch (error) {
+                showError(`Request failed: ${error.message}`);
+            }
+        }
+        
+        function displayProcessingResults(results, batchKey) {
+            let html = '<h3>🎯 Processing Results</h3>';
+            
+            // Add batch download section
+            if (batchKey) {
+                html += `
+                    <div class="download-section">
+                        <h4>📥 Download All Results</h4>
+                        <div class="download-buttons">
+                            <a href="${API_BASE_URL}/download-results/${batchKey}" class="download-btn json" download>📄 Download JSON</a>
+                            <a href="${API_BASE_URL}/download-text/${batchKey}" class="download-btn" download>📝 Download TXT</a>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            results.forEach((result, index) => {
+                html += `
+                    <div class="entity-section">
+                        <h4>📄 ${result.filename}</h4>
+                        
+                        <div class="text-section">
+                            <strong>Extracted Text (first 500 chars):</strong>
+                            <pre>${result.standardized_text.substring(0, 500)}${result.standardized_text.length > 500 ? '...' : ''}</pre>
+                        </div>
+                `;
+                
+                if (result.entities.gemini) {
+                    const entities = result.entities.gemini;
+                    
+                    // Display entities
+                    Object.entries(entities).forEach(([category, items]) => {
+                        if (items && items.length > 0) {
+                            let displayName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            let icon = getEntityIcon(category);
+                            
+                            html += `
+                                <div class="entity-title">${icon} ${displayName}:</div>
+                                <div class="entity-list">
+                            `;
+                            
+                            items.forEach(item => {
+                                html += `<div class="entity-item">• ${item}</div>`;
+                            });
+                            
+                            html += '</div>';
+                        }
+                    });
+                }
+                
+                html += '</div>';
+            });
+            
+            showResults(html);
+        }
+        
+        function displayTextResults(results, batchKey) {
+            let html = '<h3>📝 Text Extraction Results</h3>';
+            
+            // Add batch download section
+            if (batchKey) {
+                html += `
+                    <div class="download-section">
+                        <h4>📥 Download All Text Results</h4>
+                        <div class="download-buttons">
+                            <a href="${API_BASE_URL}/download-results/${batchKey}" class="download-btn json" download>📄 Download JSON</a>
+                            <a href="${API_BASE_URL}/download-text/${batchKey}" class="download-btn" download>📝 Download TXT</a>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            results.forEach((result) => {
+                html += `
+                    <div class="entity-section">
+                        <h4>📄 ${result.filename}</h4>
+                        <div class="text-section">
+                            <strong>Raw OCR Text:</strong>
+                            <pre>${result.raw_text}</pre>
+                        </div>
+                        <div class="text-section">
+                            <strong>Cleaned Text:</strong>
+                            <pre>${result.standardized_text}</pre>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            showResults(html);
+        }
+        
+        function getEntityIcon(category) {
+            const icons = {
+                'PERSON': '👥',
+                'PATTA_HOLDER_NAME': '👤',
+                'VILLAGE': '🏘️',
+                'PATTA_NUMBER': '📄',
+                'COORDINATES': '📍',
+                'CLAIM_STATUS': '📋',
+                'ORGANIZATION': '🏛️',
+                'DATES': '📅',
+                'SURVEY_NUMBERS': '📊',
+                'LAND_DETAILS': '🌳',
+                'MISCELLANEOUS': '📝'
+            };
+            return icons[category] || '📋';
+        }
+        
+        function showLoading(message) {
+            document.getElementById('results').innerHTML = `
+                <div class="loading">
+                    <p>⏳ ${message}</p>
+                </div>
+            `;
+        }
+        
+        function showResults(html) {
+            document.getElementById('results').innerHTML = `<div class="results">${html}</div>`;
+        }
+        
+        function showError(message) {
+            document.getElementById('results').innerHTML = `
+                <div class="results error">
+                    <h3>❌ Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
