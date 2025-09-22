@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Claim 1",
+        "patta_no": "P-001",
+        "area_ha": 1.5,
+        "status": "Pending",
+        "village": "Village A"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0888, 21.1466]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Claim 2",
+        "patta_no": "P-002",
+        "area_ha": 2.8,
+        "status": "Granted",
+        "village": "Village B"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0905, 21.1480]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Claim 3",
+        "patta_no": "P-003",
+        "area_ha": 0.9,
+        "status": "Pending",
+        "village": "Village A"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0895, 21.1470]
+      }
+    }
+  ]
+}

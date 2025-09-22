@@ -1,0 +1,21 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Well 1", "type": "Water Source" },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0885, 21.1465]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Watch Tower", "type": "Forest Asset" },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [79.0908, 21.1485]
+      }
+    }
+  ]
+}
