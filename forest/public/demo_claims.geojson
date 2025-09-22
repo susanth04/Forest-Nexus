@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [79.0400, 21.1700] },
+      "properties": {
+        "name": "Shivam Nair",
+        "patta_no": "A123",
+        "area_ha": 1.75,
+        "status": "Pending",
+        "village": "Bhagatpur"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [79.0500, 21.1800] },
+      "properties": {
+        "name": "Kumar Yadav",
+        "patta_no": "B456",
+        "area_ha": 4.5,
+        "status": "Granted",
+        "village": "Rampur"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [79.0600, 21.1600] },
+      "properties": {
+        "name": "Radha Prasad",
+        "patta_no": "C789",
+        "area_ha": 1.2,
+        "status": "Pending",
+        "village": "Kishorpur"
+      }
+    }
+  ]
+}
