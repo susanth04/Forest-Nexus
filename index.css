@@ -1,0 +1,374 @@
+/* Reset & base */
+:root {
+  --primary-green: #0a7c42;
+  --primary-green-hover: #086634;
+  --primary-green-light: #e8f5f0;
+  --primary-green-lighter: #f0f9f5;
+  --dark-bg: #1d1d1f;
+  --light-bg: #f8faf9;
+  --surface-white: #ffffff;
+  --text-primary: #1c1c1e;
+  --text-secondary: #424245;
+  --text-tertiary: #86868b;
+  --border-light: #e0e0e0;
+  --border-green: #0a7c42;
+  --border-focus: #0a7c42;
+  --shadow-sm: 0 2px 8px rgba(10, 124, 66, 0.08);
+  --shadow-md: 0 4px 16px rgba(10, 124, 66, 0.12);
+  --shadow-lg: 0 8px 24px rgba(10, 124, 66, 0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--light-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+code {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: var(--primary-green-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--primary-green);
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header */
+.header-bar {
+  background: linear-gradient(135deg, var(--dark-bg) 0%, #2a3d30 100%);
+  color: #fff;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid rgba(10, 124, 66, 0.3);
+}
+
+/* Main content */
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 1px;
+}
+
+/* Panels */
+.left-panel, .right-panel {
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+  background-color: var(--surface-white);
+}
+
+.left-panel {
+  width: 50%;
+  border-right: 1px solid var(--border-light);
+}
+
+.left-panel h2 {
+  margin-bottom: var(--spacing-lg);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+  border-bottom: 2px solid var(--primary-green);
+  padding-bottom: var(--spacing-sm);
+  display: inline-block;
+}
+
+.claimant-info {
+  background: linear-gradient(135deg, var(--primary-green-light) 0%, var(--primary-green-lighter) 100%);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xl);
+  border-left: 4px solid var(--primary-green);
+  box-shadow: var(--shadow-sm);
+}
+
+.claimant-info p {
+  margin: var(--spacing-xs) 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.claimant-info strong {
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.schemes-list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--spacing-md);
+}
+
+.schemes-list li {
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--light-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.schemes-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: var(--primary-green);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+.schemes-list li:hover {
+  background-color: var(--primary-green-light);
+  border-color: var(--primary-green);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.schemes-list li:hover::before {
+  transform: scaleY(1);
+}
+
+/* Right Panel */
+.right-panel {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Square Buttons Grid === */
+.buttons-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  justify-items: center;
+}
+
+.buttons-container button {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-hover) 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.buttons-container button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.buttons-container button:hover::before {
+  left: 100%;
+}
+
+.buttons-container button:hover {
+  background: linear-gradient(135deg, var(--primary-green-hover) 0%, #074c2a 100%);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.buttons-container button:active {
+  transform: translateY(0);
+}
+
+.buttons-container button:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Scheme details */
+.scheme-details {
+  background-color: var(--surface-white);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  flex-grow: 1;
+  border-top: 3px solid var(--primary-green);
+}
+
+.scheme-details h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.scheme-details p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.scheme-details strong {
+  color: var(--primary-green);
+}
+
+.back-btn {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: transparent;
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-secondary);
+}
+
+.back-btn:hover {
+  background-color: var(--primary-green-light);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+/* Chatbot (floating bottom-right widget) */
+.chatbot {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  right: var(--spacing-lg);
+  width: 380px;
+  height: 500px;
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid var(--primary-green);
+}
+
+.chatbot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(10, 124, 66, 0.2);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Custom green scrollbar for panels */
+.left-panel::-webkit-scrollbar-thumb,
+.right-panel::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+}
+
+.left-panel::-webkit-scrollbar-thumb:hover,
+.right-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-green-hover);
+}
+
+/* Responsive considerations */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+  }
+  
+  .left-panel, .right-panel {
+    width: 100%;
+    height: 50%;
+  }
+  
+  .chatbot {
+    width: 320px;
+    height: 450px;
+  }
+}
+
+/* Additional green theme enhancements */
+.buttons-container button i {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.back-btn i {
+  color: var(--primary-green);
+}
+
+/* Success state indicators */
+.scheme-details .success-indicator {
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.scheme-details .status-active {
+  background-color: var(--primary-green-light);
+  color: var(--primary-green);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
