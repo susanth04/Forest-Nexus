@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import "./App.css";
+import DSS from "./DSS.jsx";
+import OCR from "./OCR.jsx";
+import { OcrProvider } from "./context/OcrContext.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <OcrProvider>
+      <Router>
+        <div className="App">
+          {/* Navbar */}
+          <nav className="navbar">
+            <h2 className="logo">FRA Dashboard</h2>
+            <ul className="nav-links">
+              <li>
+                <Link to="/">DSS</Link>
+              </li>
+              <li>
+                <Link to="/ocr">OCR</Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Page Content */}
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<DSS />} />
+              <Route path="/ocr" element={<OCR />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
+    </OcrProvider>
   );
 }
 

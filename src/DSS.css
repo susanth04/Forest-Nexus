@@ -1,0 +1,189 @@
+/* ====== DSS.CSS ====== */
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header-bar {
+  background: #065f46;
+  color: white;
+  padding: 1rem;
+  border-bottom: 1px solid #047857;
+  flex-shrink: 0;
+}
+
+.header-bar h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Content - Side by Side */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.left-panel {
+  background: #fff;
+  padding: 1rem;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+}
+
+.left-panel h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #065f46;
+}
+
+.claimant-info {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.claimant-info p {
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+.claimant-info strong {
+  color: #065f46;
+}
+
+.left-panel h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #065f46;
+}
+
+.schemes-list {
+  list-style: none;
+  padding: 0;
+}
+
+.schemes-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Right Panel */
+.right-panel {
+  background: #fff;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.right-panel h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #065f46;
+}
+
+.buttons-container {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.buttons-container button {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: #374151;
+}
+
+.buttons-container button:hover {
+  border-color: #065f46;
+  background: #f0fdf4;
+}
+
+/* Scheme Details */
+.scheme-details {
+  animation: fadeIn 0.2s ease;
+}
+
+.back-btn {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: #374151;
+}
+
+.back-btn:hover {
+  border-color: #065f46;
+}
+
+.scheme-details h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.75rem;
+  color: #065f46;
+}
+
+.scheme-details p {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.scheme-details a {
+  color: #065f46;
+  text-decoration: none;
+}
+
+.scheme-details a:hover {
+  text-decoration: underline;
+}
+
+/* Loading */
+p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Scrollbar */
+.left-panel::-webkit-scrollbar,
+.right-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.left-panel::-webkit-scrollbar-track,
+.right-panel::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.left-panel::-webkit-scrollbar-thumb,
+.right-panel::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.left-panel::-webkit-scrollbar-thumb:hover,
+.right-panel::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
