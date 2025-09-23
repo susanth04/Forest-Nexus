@@ -1,0 +1,148 @@
+/* ===== OCR.CSS - GREEN THEME ===== */
+
+/* General Reset */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f3f4f6;
+  color: #333;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 4px solid #10b981; /* green */
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+}
+
+.header a {
+  color: #059669; /* green */
+  text-decoration: none;
+}
+
+.header a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background-color: #10b981; /* green */
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn-green { background-color: #10b981; }
+.btn-green:hover { background-color: #059669; }
+
+.btn-blue { background-color: #3b82f6; }
+.btn-blue:hover { background-color: #2563eb; }
+
+.btn-purple { background-color: #8b5cf6; }
+.btn-purple:hover { background-color: #7c3aed; }
+
+.btn-orange { background-color: #f97316; }
+.btn-orange:hover { background-color: #ea580c; }
+
+.btn-indigo { background-color: #6366f1; }
+.btn-indigo:hover { background-color: #4f46e5; }
+
+/* File input */
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #34d399; /* green border */
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Cards */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid #10b981; /* subtle green border */
+}
+
+/* Batch download section */
+.download-section {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Loading / Error messages */
+.message {
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.message.error {
+  background-color: #d1fae5;
+  border: 1px solid #10b981;
+  color: #065f46;
+}
+
+.message.loading {
+  background-color: #d1fae5;
+  border: 1px solid #10b981;
+  color: #065f46;
+  text-align: center;
+}
+
+/* Results text boxes */
+.result-text {
+  background-color: #f0fdf4;
+  border: 1px solid #34d399;
+  border-radius: 6px;
+  padding: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+/* Entity boxes */
+.entity {
+  border-left: 4px solid #10b981;
+  background-color: #dcfce7;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.entity-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
