@@ -4,40 +4,136 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#1b4332" />
+
+    <!-- 🔖 SEO & App Metadata -->
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="AI-powered FRA Atlas & WebGIS-based Decision Support System for monitoring Forest Rights Act (FRA) implementation in Madhya Pradesh, Tripura, Odisha & Telangana."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta
+      name="keywords"
+      content="FRA, Forest Rights Act, DSS, AI, WebGIS, OCR, Asset Mapping, Satellite Data, Tribal Development"
+    />
+    <meta name="author" content="Ministry of Tribal Affairs (MoTA)" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- 📱 PWA / Icons -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- 🖋️ Fonts & Styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title> FRA Atlas & DSS | Forest Nexus</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background-color: #f8fff9;
+        color: #1b4332;
+      }
+      #root {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .splash {
+        text-align: center;
+        padding: 60px 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+      .splash h1 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+        color: #2d6a4f;
+      }
+      .splash h2 {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #1b4332;
+      }
+      .splash p, .splash li {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #40916c;
+        text-align: left;
+      }
+      ul {
+        margin: 0.5rem 0 1.2rem 1.2rem;
+      }
+      .highlight {
+        font-weight: 600;
+        color: #2d6a4f;
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="root">
+      <!-- Splash / Proposal Summary -->
+      <div class="splash">
+        <h1>Development of AI-powered FRA Atlas & WebGIS-based DSS</h1>
+        <p>
+          Integrated Monitoring of Forest Rights Act (FRA) Implementation –
+          <span class="highlight">Madhya Pradesh, Tripura, Odisha, Telangana</span>.
+        </p>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        <h2>📌 Problem Background</h2>
+        <ul>
+          <li>Legacy FRA records are scattered, non-digitized, and hard to verify.</li>
+          <li>No centralized FRA Atlas of claims & titles.</li>
+          <li>Lack of integration of satellite-based asset mapping with FRA data.</li>
+          <li>No DSS engine to layer CSS schemes for FRA patta holders.</li>
+        </ul>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+        <h2>🎯 Project Objectives</h2>
+        <ul>
+          <li>Digitize & standardize FRA claims, integrate into FRA Atlas.</li>
+          <li>Create AI-powered FRA Atlas using satellite data.</li>
+          <li>Develop WebGIS portal for visualization & progress tracking.</li>
+          <li>Map assets (land, water, forests, homesteads) using AI/ML.</li>
+          <li>Build DSS to recommend CSS schemes (PM-KISAN, MGNREGA, Jal Jeevan Mission, DAJGUA).</li>
+        </ul>
+
+        <h2>🧠 AI & Tech Components</h2>
+        <ul>
+          <li>OCR & NER for legacy FRA document digitization.</li>
+          <li>AI-based asset mapping via computer vision (RF, CNN models).</li>
+          <li>Interactive WebGIS with state/district/village filters.</li>
+          <li>DSS engine combining rule-based & AI-enhanced recommendations.</li>
+        </ul>
+
+        <h2>📦 Deliverables</h2>
+        <ul>
+          <li>Digital archive of FRA claims & pattas.</li>
+          <li>Interactive FRA Atlas with spatial data layers.</li>
+          <li>AI-generated asset maps for FRA villages.</li>
+          <li>DSS engine for CSS scheme integration.</li>
+        </ul>
+
+        <h2>👥 Target Users</h2>
+        <p>
+          Ministry of Tribal Affairs, District Welfare Departments, Forest & Revenue Departments, NGOs.
+        </p>
+
+        <h2>🔮 Future Scope</h2>
+        <ul>
+          <li>Real-time satellite feed integration.</li>
+          <li>IoT sensors for soil, water & forest health monitoring.</li>
+          <li>Mobile-based feedback from patta holders.</li>
+        </ul>
+
+        <p><strong>Organization:</strong> Ministry of Tribal Affairs (MoTA)</p>
+        <p><strong>Category:</strong> Software</p>
+      </div>
+    </div>
   </body>
 </html>
