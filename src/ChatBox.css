@@ -1,0 +1,199 @@
+/* ---------------- CHATBOX ---------------- */
+.chatbox {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  border: 1px solid #dfe6dd;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  background: #fdfdfb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.chatbox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2f855a; /* deep green */
+  color: white;
+  padding: 10px 15px;
+  border-radius: 12px 12px 0 0;
+}
+
+.clear-btn {
+  background: #e53e3e; /* subtle red */
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #c53030;
+}
+
+.messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg {
+  max-width: 75%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: #f0fff4; /* pale mint green */
+  border: 1px solid #c6f6d5;
+  color: #22543d;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: #d3f9d8; /* soft green */
+  border: 1px solid #9ae6b4;
+  color: #1b4332;
+}
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8faf9;
+  border-radius: 0 0 12px 12px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #cbd5bd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  background: #ffffff;
+}
+
+.input-area button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  background: #38a169; /* green */
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease;
+}
+
+.input-area button:hover {
+  background: #2f855a;
+}
+
+/* ---------------- DSS ---------------- */
+.dss-container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #dfe6dd;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.dss-container h2 {
+  margin-bottom: 15px;
+  color: #22543d;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #9ae6b4;
+  padding-bottom: 5px;
+}
+
+.dss-content {
+  display: flex;
+  gap: 20px;
+}
+
+.dss-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.claimant-info,
+.eligible-schemes,
+.priority-schemes {
+  padding: 12px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f9faf9;
+}
+
+.claimant-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.eligible-schemes h3,
+.priority-schemes h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #276749;
+}
+
+.eligible-schemes ul,
+.priority-schemes ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.eligible-schemes li,
+.priority-schemes li {
+  padding: 5px 0;
+  color: #2f855a;
+  font-size: 0.95rem;
+}
+
+.priority-link {
+  color: #2f855a;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.priority-link:hover {
+  color: #22543d;
+  text-decoration: underline;
+}
+
+.scheme-category {
+  margin-bottom: 12px;
+}
+
+.scheme-category h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #22543d;
+}
+
+.dss-right {
+  flex: 1;
+  min-width: 300px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
