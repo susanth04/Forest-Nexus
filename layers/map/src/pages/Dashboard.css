@@ -1,0 +1,42 @@
+
+
+.dashboard {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1b4332, #40916c); /* deep forest gradient */
+  min-height: 100vh;
+  color: #e6f2e6; /* light green text */
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #d8f3dc; /* pale green */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.card {
+  background: rgba(34, 77, 46, 0.7); /* semi-transparent forest green */
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: #f0f9f0;
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #a3d9a5; /* soft green headings */
+}
+
+.full-width {
+  grid-column: span 2;
+}

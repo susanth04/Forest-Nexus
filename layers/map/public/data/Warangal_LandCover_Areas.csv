@@ -1,0 +1,9 @@
+system:index,area_hectares,class,class_name,.geo
+0,27627.124876981896,10,Tree cover,"{""type"":""MultiPoint"",""coordinates"":[]}"
+1,14961.791851100474,20,Shrubland,"{""type"":""MultiPoint"",""coordinates"":[]}"
+2,20890.243866997986,30,Grassland,"{""type"":""MultiPoint"",""coordinates"":[]}"
+3,85285.53619228775,40,Cropland,"{""type"":""MultiPoint"",""coordinates"":[]}"
+4,8966.347443308616,50,Built-up,"{""type"":""MultiPoint"",""coordinates"":[]}"
+5,12818.332671783393,60,Bare/sparse vegetation,"{""type"":""MultiPoint"",""coordinates"":[]}"
+6,3877.049757843457,80,Permanent water bodies,"{""type"":""MultiPoint"",""coordinates"":[]}"
+7,3709.432919888773,90,Herbaceous wetland,"{""type"":""MultiPoint"",""coordinates"":[]}"

@@ -1,0 +1,37 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Village A" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [79.0875, 21.1455],
+            [79.0900, 21.1455],
+            [79.0900, 21.1480],
+            [79.0875, 21.1480],
+            [79.0875, 21.1455]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Village B" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [79.0902, 21.1475],
+            [79.0925, 21.1475],
+            [79.0925, 21.1495],
+            [79.0902, 21.1495],
+            [79.0902, 21.1475]
+          ]
+        ]
+      }
+    }
+  ]
+}
