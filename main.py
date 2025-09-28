@@ -15,6 +15,8 @@ import fitz  # PyMuPDF for PDF processing
 import uvicorn
 from datetime import datetime
 from dotenv import load_dotenv
+from pydantic import BaseModel
+
 
 # Load environment variables
 load_dotenv()
@@ -39,7 +41,7 @@ class Config:
     GOOGLE_CREDENTIALS_PATH = "sih-2025-472809-8e136fdd6e00.json"
     
     # Gemini API key
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyBAQaDINjLpcFO3S-haadgKtEdUXUJIKmI")
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyCD1Us-FSwyDY7sLI0iFWifOryWzK0uZEI")
     
     # Server settings
     HOST = os.getenv("HOST", "127.0.0.1")
@@ -455,7 +457,7 @@ class NERExtractor:
         if GEMINI_AVAILABLE:
             try:
                 genai.configure(api_key=self.api_key)
-                self.gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+                self.gemini_model = genai.GenerativeModel('gemini-2.5-flash')
                 print("✅ Gemini API initialized successfully")
             except Exception as e:
                 print(f"❌ Gemini API initialization failed: {str(e)}")
@@ -638,126 +640,128 @@ async def translation_health_check():
 async def process_documents(files: List[UploadFile] = File(...)):
     """Process uploaded FRA documents (images or PDFs) for OCR and NER"""
     
-    if not files:
+    if files:
+        allowed_types = {'image/png', 'image/jpeg', 'image/jpg', 'application/pdf'}
+        for file in files:
+            if file.content_type not in allowed_types:
+                return JSONResponse(
+                    status_code=400,
+                    content={
+                        "success": False,
+                        "message": f"File {file.filename} has unsupported type {file.content_type}",
+                        "results": []
+                    }
+                )
+        
+        if ocr_processor.credentials_loaded:
+            results = []
+            
+            try:
+                for file in files:
+                    print(f"\nProcessing file: {file.filename}")
+                    file_content = await file.read()
+                    
+                    if file.content_type == "application/pdf":
+                        raw_text = ocr_processor.extract_text_from_pdf(file_content)
+                    else:
+                        raw_text = ocr_processor.extract_text_from_image(file_content)
+                    
+                    if raw_text:
+                        cleaned_text = text_preprocessor.clean_text(raw_text)
+                        standardized_text = text_preprocessor.standardize_spacing(cleaned_text)
+                        
+                        translated_text = standardized_text
+                        original_language = "Unknown"
+                        
+                        if translation_service.should_translate(standardized_text):
+                            detection = translation_service.detect_language(standardized_text)
+                            if detection:
+                                original_language = detection.get('language', 'Unknown')
+                                translated_text = translation_service.translate_with_google(standardized_text, 'en')
+                        
+                        if ner_extractor.gemini_model:
+                            try:
+                                entities = ner_extractor.extract_all_entities(translated_text)
+                            except Exception as e:
+                                print(f"NER failed: {str(e)}")
+                                entities = {}
+                        else:
+                            entities = {}
+                        
+                        serializable_entities = make_json_serializable(entities)
+                        
+                        result = ProcessingResult(
+                            filename=file.filename,
+                            raw_text=raw_text,
+                            cleaned_text=cleaned_text,
+                            standardized_text=standardized_text,
+                            translated_text=translated_text,
+                            original_language=original_language,
+                            entities=serializable_entities
+                        )
+                        results.append(result)
+                        
+                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                        storage_key = f"{timestamp}_{file.filename}"
+                        results_storage[storage_key] = result.dict()
+                    else:
+                        print(f"No text found in file: {file.filename}")
+                
+                batch_key = f"batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                results_storage[batch_key] = {
+                    "success": True,
+                    "message": f"Successfully processed {len(results)} document(s)",
+                    "results": [r.dict() for r in results],
+                    "processing_time": 0.0
+                }
+                
+                response_data = EntityExtractionResponse(
+                    success=True,
+                    message=f"Successfully processed {len(results)} document(s)",
+                    results=results
+                )
+                
+                response_dict = response_data.dict()
+                response_dict["batch_key"] = batch_key
+                
+                return JSONResponse(
+                    status_code=200,
+                    content=response_dict,
+                    headers={
+                        "access-control-allow-credentials": "true",
+                        "access-control-allow-origin": "*",
+                    }
+                )
+                
+            except Exception as e:
+                error_msg = f"Processing failed: {str(e)}"
+                print(f"Main processing error: {error_msg}")
+                
+                return JSONResponse(
+                    status_code=500,
+                    content={
+                        "success": False,
+                        "message": error_msg,
+                        "results": [],
+                        "error_details": str(e)
+                    }
+                )
+        else:
+            return JSONResponse(
+                status_code=500,
+                content={
+                    "success": False,
+                    "message": "Google Cloud Vision API not configured",
+                    "results": []
+                }
+            )
+    else:
         return JSONResponse(
             status_code=400,
             content={
                 "success": False,
                 "message": "No files provided",
                 "results": []
-            }
-        )
-    
-    allowed_types = {'image/png', 'image/jpeg', 'image/jpg', 'application/pdf'}
-    for file in files:
-        if file.content_type not in allowed_types:
-            return JSONResponse(
-                status_code=400,
-                content={
-                    "success": False,
-                    "message": f"File {file.filename} has unsupported type {file.content_type}",
-                    "results": []
-                }
-            )
-    
-    if not ocr_processor.credentials_loaded:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "success": false,
-                "message": "Google Cloud Vision API not configured",
-                "results": []
-            }
-        )
-    
-    results = []
-    
-    try:
-        for file in files:
-            print(f"\n📄 Processing file: {file.filename}")
-            
-            file_content = await file.read()
-            
-            if file.content_type == "application/pdf":
-                raw_text = ocr_processor.extract_text_from_pdf(file_content)
-            else:
-                raw_text = ocr_processor.extract_text_from_image(file_content)
-            
-            if raw_text is None:
-                continue
-            
-            cleaned_text = text_preprocessor.clean_text(raw_text)
-            standardized_text = text_preprocessor.standardize_spacing(cleaned_text)
-            
-            translated_text = standardized_text
-            original_language = "Unknown"
-            
-            if translation_service.should_translate(standardized_text):
-                detection = translation_service.detect_language(standardized_text)
-                if detection:
-                    original_language = detection.get('language', 'Unknown')
-                    translated_text = translation_service.translate_with_google(standardized_text, 'en')
-            
-            try:
-                entities = ner_extractor.extract_all_entities(translated_text)
-            except Exception as e:
-                print(f"⚠️ NER failed: {str(e)}")
-                entities = {}
-            
-            serializable_entities = make_json_serializable(entities)
-            
-            result = ProcessingResult(
-                filename=file.filename,
-                raw_text=raw_text,
-                cleaned_text=cleaned_text,
-                standardized_text=standardized_text,
-                translated_text=translated_text,
-                original_language=original_language,
-                entities=serializable_entities
-            )
-            results.append(result)
-            
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            storage_key = f"{timestamp}_{file.filename}"
-            results_storage[storage_key] = result.dict()
-        
-        batch_key = f"batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        results_storage[batch_key] = {
-            "success": True,
-            "message": f"Successfully processed {len(results)} document(s)",
-            "results": [r.dict() for r in results],
-            "processing_time": 0.0
-        }
-        
-        response_data = EntityExtractionResponse(
-            success=True,
-            message=f"Successfully processed {len(results)} document(s)",
-            results=results
-        )
-        
-        response_dict = response_data.dict()
-        response_dict["batch_key"] = batch_key
-        
-        return JSONResponse(
-            status_code=200,
-            content=response_dict,
-            headers={
-                "access-control-allow-credentials": "true",
-                "access-control-allow-origin": "*",
-            }
-        )
-        
-    except Exception as e:
-        error_msg = f"Processing failed: {str(e)}"
-        print(f"❌ Main processing error: {error_msg}")
-        
-        return JSONResponse(
-            status_code=500,
-            content={
-                "success": False,
-                "message": error_msg,
-                "results": [],
-                "error_details": str(e)
             }
         )
 
@@ -815,6 +819,55 @@ async def extract_text_only(files: List[UploadFile] = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Text extraction failed: {str(e)}")
 
+
+# --------------------------
+# Gemini AI Chat Endpoint
+# --------------------------
+
+class ChatRequest(BaseModel):
+    user_input: str
+    ocr_context: Optional[str] = ""
+
+class ChatResponse(BaseModel):
+    bot_reply: str
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat_endpoint(request: ChatRequest):
+    """
+    Chat endpoint for FRA-CSS Assistant using Gemini API.
+    Receives user input and optional OCR context, returns bot reply.
+    """
+    if not ner_extractor.gemini_model:
+        return {"bot_reply": "⚠️ Gemini API not available. Cannot generate response."}
+
+    try:
+        system_prompt = (
+            f"You are an expert assistant for the Forest Rights Act (FRA) Decision Support System "
+            f"focusing exclusively on Central Sector Schemes (CSS).\n\n"
+            f"CONTEXT: FRA OCR Extracted Data:\n{request.ocr_context}\n\n"
+            f"INSTRUCTIONS:\n"
+            f"- Only discuss Central Sector Schemes like PM-KISAN, MGNREGA, Jal Jeevan Mission, Ayushman Bharat PM-JAY, PMAY-G, PM-KUSUM, Swachh Bharat Mission, etc.\n"
+            f"- Provide specific eligibility criteria, application processes, and benefits.\n"
+            f"- Reference the user's extracted data when relevant (name, location, land area, etc.)\n"
+            f"- Keep responses concise (2-4 sentences)\n"
+            f"- Include actionable next steps\n"
+            f"- Use a helpful, professional tone\n\n"
+            f"USER QUESTION: {request.user_input}"
+        )
+
+        response = ner_extractor.gemini_model.generate_content(system_prompt)
+        bot_reply = response.text.strip() if response.text else "I couldn't generate a proper response. Please rephrase your question about Central Sector Schemes."
+
+        # Clean code block formatting if any
+        if bot_reply.startswith("```"):
+            bot_reply = bot_reply.strip("```").strip()
+
+        return {"bot_reply": bot_reply}
+
+    except Exception as e:
+        print(f"Chat endpoint error: {str(e)}")
+        return {"bot_reply": "⚠️ I'm having trouble connecting to my knowledge base. Try again later."}
+
 @app.get("/download-results/{key}")
 async def download_results_json(key: str):
     """Download processing results as JSON file"""
@@ -822,4 +875,5 @@ async def download_results_json(key: str):
         raise HTTPException(status_code=404, detail="Results not found")
     
     results = results_storage[key]
-    json
+    json_data = json.dumps(results, indent=2, ensure_ascii=False)
+    filename = f"results_{key}.json"
