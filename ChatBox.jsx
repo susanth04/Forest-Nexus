@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ChatBox.css";
+import "./ChatBox.css"; // Use the forest-themed CSS
 
 export default function ChatBox({ ocrContext }) {
   const [messages, setMessages] = useState([
@@ -12,7 +12,6 @@ export default function ChatBox({ ocrContext }) {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
 
-  // Focus input when component mounts
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -21,29 +20,33 @@ export default function ChatBox({ ocrContext }) {
     const trimmedInput = input.trim();
     if (!trimmedInput || isLoading) return;
 
-    // Add user message
-    const userMessage = { sender: "user", text: trimmedInput };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages(prev => [...prev, { sender: "user", text: trimmedInput }]);
     setInput("");
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/chat", {
+      const response = await fetch("http://localhost:8000/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userInput: trimmedInput, ocrContext })
+        body: JSON.stringify({ user_input: trimmedInput, ocr_context: ocrContext })
       });
 
-      const data = await response.json();
-      const botReply = data.botReply || "⚠️ No response received. Please try again.";
+      let botReply = "⚠️ Couldn't get a response from the assistant.";
+
+      if (response.ok) {
+        const data = await response.json();
+        botReply = data?.bot_reply || botReply;
+      } else if (response.status === 429) {
+        botReply = "⚠️ Too many requests - please wait a moment and try again.";
+      } else if (response.status === 403) {
+        botReply = "⚠️ API access issue - please check backend configuration.";
+      }
+
       setMessages(prev => [...prev, { sender: "bot", text: botReply }]);
 
     } catch (error) {
       console.error("Chat API Error:", error);
-      setMessages(prev => [
-        ...prev,
-        { sender: "bot", text: "⚠️ Can't connect to knowledge base. Try again later." }
-      ]);
+      setMessages(prev => [...prev, { sender: "bot", text: "⚠️ Can't connect to assistant. Try again later." }]);
     } finally {
       setIsLoading(false);
       setTimeout(() => inputRef.current?.focus(), 100);
@@ -51,7 +54,7 @@ export default function ChatBox({ ocrContext }) {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
@@ -59,9 +62,9 @@ export default function ChatBox({ ocrContext }) {
 
   const handleClear = () => {
     setMessages([
-      { 
-        sender: "bot", 
-        text: "Chat cleared! 🔄 Feel free to ask me about any Central Sector Schemes that might benefit FRA patta holders like yourself." 
+      {
+        sender: "bot",
+        text: "Chat cleared! 🔄 Feel free to ask me about any Central Sector Schemes that might benefit FRA patta holders like yourself."
       }
     ]);
     inputRef.current?.focus();
@@ -82,15 +85,11 @@ export default function ChatBox({ ocrContext }) {
 
   return (
     <div className="chatbox">
-      {/* Header */}
       <div className="chatbox-header">
         <h3>💬 FRA-CSS Assistant</h3>
-        <button className="clear-btn" onClick={handleClear} title="Clear chat history">
-          🗑️ Clear
-        </button>
+        <button className="clear-btn" onClick={handleClear} title="Clear chat history">🗑️ Clear</button>
       </div>
 
-      {/* Messages */}
       <div className="messages" style={{ overflowY: "auto" }}>
         {messages.map((msg, idx) => (
           <div key={idx} className={`msg ${msg.sender}`}>
@@ -98,30 +97,20 @@ export default function ChatBox({ ocrContext }) {
           </div>
         ))}
 
-        {/* Loading indicator */}
         {isLoading && (
           <div className="msg bot">
             <div className="typing-indicator">
               <span>Thinking</span>
-              <div className="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+              <div className="typing-dots"><span></span><span></span><span></span></div>
             </div>
           </div>
         )}
 
-        {/* Suggested questions (show when conversation is short) */}
         {messages.length <= 1 && !isLoading && (
           <div className="suggestions">
             <div className="suggestions-header">💡 Try asking:</div>
             {suggestedQuestions.map((question, idx) => (
-              <button
-                key={idx}
-                className="suggestion-btn"
-                onClick={() => handleSuggestionClick(question)}
-              >
+              <button key={idx} className="suggestion-btn" onClick={() => handleSuggestionClick(question)}>
                 {question}
               </button>
             ))}
@@ -129,7 +118,6 @@ export default function ChatBox({ ocrContext }) {
         )}
       </div>
 
-      {/* Input Area */}
       <div className="input-area">
         <input
           ref={inputRef}
