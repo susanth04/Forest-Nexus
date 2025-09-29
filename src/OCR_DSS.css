@@ -1,0 +1,669 @@
+/* OCR_DSS.css - Professional, Chic Glass-Morphic UI */
+
+:root {
+  /* Color Palette - Dark & Subtle */
+  --color-primary: #eaf0f7;        /* Light text */
+  --color-secondary: #a4b0c2;      /* Muted text */
+  --color-accent: #22c55e;         /* Bright Green Accent */
+  --color-accent-dark: #16a34a;    /* Darker Green Accent */
+  --color-danger: #ef4444;         /* Error Red */
+  --color-info: #0ea5a3;           /* Processing Teal */
+
+  /* Glass-Morphism Base - Dark with High Transparency */
+  --glass-surface-base: rgba(18, 24, 33, 0.45); /* Very transparent */
+  --glass-surface-light: rgba(22, 29, 39, 0.65); /* Less transparent for contrast */
+  --glass-surface-card: rgba(150, 155, 163, 0.6);   /* Standard card transparency */
+  --glass-backdrop-blur: blur(12px);
+
+  /* Borders & Shadows */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --radius: 14px;
+
+  /* Spacing */
+  --gap-3: 24px;
+  --gap-2: 18px;
+  --gap-1: 12px;
+}
+
+/* Base Container and Background */
+.ocr-dss-container {
+  color: var(--color-primary);
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+  box-sizing: border-box;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  
+  /* Background Forest Image */
+  background: url("https://i.pinimg.com/1200x/e3/5e/c6/e35ec63989043b0e742bc40c1eee0178.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #dee1e5; /* Fallback/Dark Base */
+  
+  position: relative;
+  display: flex; /* For centering the initial upload state */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+}
+
+/* Dark Overlay for Readability */
+.ocr-dss-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Darker overlay with blend mode for rich background visibility */
+  background: transparent; 
+  z-index: 0;
+}
+
+/* Ensure content is above the overlay */
+.ocr-dss-container > * {
+  position: relative;
+  z-index: 1;
+  width: 100%; /* Take full width within padding */
+  max-width: 1400px; /* Max content width */
+}
+
+/* --- Global Elements & Typography --- */
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: var(--gap-3);
+  color: var(--color-accent);
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: green;
+  margin-bottom: var(--gap-2);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  gap: var(--gap-1);
+}.fra-2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: rgb(230, 245, 235); /* light, professional greenish-white */
+  margin-bottom: var(--gap-2);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-1);
+
+  /* Text shadow for visibility */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7), 
+               0 0 8px rgba(16, 185, 129, 0.4); 
+
+  /* Glassy background */
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.upload-file {
+  font-size: 2.2rem;               /* big, confident heading */
+  font-weight: 800;
+  color: rgb(10, 97, 42);          /* deep forest green for authority */
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.6px;
+
+  /* Sharp, professional shadow */
+  text-shadow: 0 3px 6px rgba(225, 225, 225, 0.6);
+
+  /* Sleek underline accent */
+  position: relative;
+}
+
+.upload-file::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, #0a612a, #1fbf75);
+  border-radius: 2px;
+}
+
+
+.input-file {
+  font-size: 0.95rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  background: rgba(0, 0, 0, 0.4);
+  color: rgb(220, 240, 225);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.input-file:hover {
+  background: rgba(20, 90, 50, 0.55);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-top: var(--gap-2);
+  margin-bottom: var(--gap-1);
+}
+
+p {
+  color: var(--color-secondary);
+  line-height: 1.6;
+}
+
+strong {
+  color: var(--color-primary);
+}
+.upload-section{
+  background: var(--glass-surface-card);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: var(--gap-3);
+  transition: all 0.3s ease;
+}
+/* The Glass-Morphic Card Style */
+.glass-card{
+  background: var(--glass-surface-card);
+  backdrop-filter: var(--glass-backdrop-blur);
+  -webkit-backdrop-filter: var(--glass-backdrop-blur);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: var(--gap-3);
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.3s ease;
+}
+
+/* --- Initial State (Upload Section) --- */
+.initial-upload-state {
+  max-width: 500px; /* Only this state is centered and constrained */
+  width: 100%;
+  margin: 0 auto; /* Remove top margin for true centering */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ocr-dss-file-area {
+  border: 2px dashed var(--border-light);
+  border-radius: var(--radius);
+  padding: var(--gap-3) 0;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: var(--glass-surface-base);
+  cursor: pointer;
+  width: 100%;
+  margin-top: var(--gap-2);
+}
+
+.ocr-dss-file-area:hover,
+.ocr-dss-file-area.dragover {
+  border-color: var(--color-accent);
+  background: var(--glass-surface-light);
+  transform: translateY(-2px);
+}
+
+.ocr-dss-file-icon {
+  font-size: 3rem;
+  margin-bottom: var(--gap-1);
+  color: var(--color-accent);
+}
+
+.ocr-dss-file-input {
+  display: none;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--gap-1);
+  text-align: left;
+}
+
+.file-list li {
+  padding: 6px 0;
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
+}
+
+/* --- Button Styling --- */
+.ocr-dss-button {
+  background: var(--color-accent);
+  color: #121821; /* Dark text on bright button */
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: var(--gap-2);
+}
+
+.ocr-dss-button:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-subtle);
+}
+
+.ocr-dss-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background: var(--color-accent);
+}
+
+.spin {
+  animation: ocr-dss-spin 1s linear infinite;
+}
+
+@keyframes ocr-dss-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status Messages */
+.status-message {
+  padding: 10px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  margin-top: var(--gap-2);
+  text-align: center;
+}
+
+.status-message.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--color-danger);
+}
+
+/* --- Results/DSS State --- */
+.dss-container {
+  margin-top: var(--gap-3);
+}
+
+.dss-content {
+  display: grid;
+  grid-template-columns: 1fr 400px; /* Main content and ChatBox */
+  gap: var(--gap-3);
+}
+
+.dss-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3);
+}
+
+/* Claimant Info Card */
+.claimant-info,
+.eligible-schemes,
+.priority-schemes {
+  background: var(--glass-surface-light);
+  backdrop-filter: var(--glass-backdrop-blur);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: var(--gap-2);
+  box-shadow: var(--shadow-subtle);
+}
+
+.claimant-info p {
+  margin: 6px 0;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.claimant-info strong {
+  font-weight: 500;
+  color: var(--color-secondary);
+  width: 120px;
+  display: inline-block;
+}
+
+.eligible-schemes ul,
+.scheme-category ul {
+  list-style-type: "➡️ ";
+  padding-left: var(--gap-2);
+  margin-top: var(--gap-1);
+}
+
+.eligible-schemes li,
+.scheme-category li {
+  margin-bottom: 8px;
+  color: var(--color-secondary);
+}
+
+.priority-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.priority-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.scheme-category h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: var(--gap-1) 0 8px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dss-right {
+  /* ChatBox will fill this column */
+}
+/* Professional Glassmorphic Button Styles for Dark Background */
+
+/* Primary Process Button - Professional Glassmorphic Design */
+.button-process,
+.ocr-dss-button { 
+  /* Core glassmorphic styling */
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.15) 0%, 
+    rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* Typography and layout */
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  
+  /* Flexbox layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: var(--gap-2, 16px);
+  
+  /* Professional shadow system */
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  /* Smooth transitions */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Hover state - Enhanced glassmorphic effect */
+.button-process:hover,
+.ocr-dss-button:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.25) 0%, 
+    rgba(255, 255, 255, 0.12) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Active state */
+.button-process:active,
+.ocr-dss-button:active {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.18) 0%, 
+    rgba(255, 255, 255, 0.1) 100%);
+  
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.25),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Disabled state */
+.button-process:disabled,
+.ocr-dss-button:disabled {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.04) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  transform: none;
+  
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Professional focus state for accessibility */
+.button-process:focus-visible,
+.ocr-dss-button:focus-visible {
+  outline: none;
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Secondary Button Variant - Subtle glassmorphic */
+.ocr-dss-button.secondary {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.04) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.ocr-dss-button.secondary:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.15) 0%, 
+    rgba(255, 255, 255, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Small Button Variant */
+.ocr-dss-button.small {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Success/Accent Button Variant */
+.ocr-dss-button.accent {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.9) 0%, 
+    rgba(22, 163, 74, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #ffffff;
+  
+  box-shadow: 
+    0 8px 32px rgba(34, 197, 94, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 0 rgba(34, 197, 94, 0.1);
+}
+
+.ocr-dss-button.accent:hover {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 1) 0%, 
+    rgba(22, 163, 74, 1) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  
+  box-shadow: 
+    0 12px 40px rgba(34, 197, 94, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 1px 0 rgba(34, 197, 94, 0.2);
+}
+
+/* Loading Animation */
+.spin {
+  animation: professional-spin 1s linear infinite;
+}
+
+@keyframes professional-spin {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+/* Button Text Animation */
+.button-process,
+.ocr-dss-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-process::before,
+.ocr-dss-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.button-process:hover::before,
+.ocr-dss-button:hover::before {
+  left: 100%;
+}
+
+/* Ripple Effect on Click */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.button-process,
+.ocr-dss-button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .button-process,
+  .ocr-dss-button {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+  
+  .ocr-dss-button.small {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .button-process,
+  .ocr-dss-button {
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .button-process,
+  .ocr-dss-button {
+    transition: none;
+  }
+  
+  .button-process:hover,
+  .ocr-dss-button:hover {
+    transform: none;
+  }
+  
+  .spin {
+    animation: none;
+  }
+}
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .dss-content {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
+
+  .dss-right {
+    min-height: 400px; /* Ensure ChatBox has visible space */
+  }
+}
+
+@media (max-width: 480px) {
+  .ocr-dss-container {
+    padding: 20px 10px 40px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: var(--gap-2);
+  }
+  
+  .glass-card {
+    padding: var(--gap-2);
+  }
+  
+  .initial-upload-state {
+    margin-top: 10vh;
+  }
+}
