@@ -1,23 +1,59 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Environment variables & Secrets
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+*.pem
+*.key
+*.p12
+*.jks
+secrets.json
+*credentials*.json
+*-secret*.json
+
+# Firebase credentials
+firebase-config.js
+firebase-key.json
+
+# Google Cloud credentials
+*gcp*.json
+*-*-*-*.json
+
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+node_modules/
+package-lock.json
+yarn.lock
 
 # testing
 /coverage
 
 # production
 /build
+dist/
+.next/
+out/
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+delete_me.txt
+*.tmp
