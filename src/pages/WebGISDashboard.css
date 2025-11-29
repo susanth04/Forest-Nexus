@@ -1,0 +1,198 @@
+/* WebGIS Page Styles - Glass-morphic Design */
+
+.webgis-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #000000;
+  z-index: 9999;
+}
+
+/* Panel Styles */
+.webgis-panel {
+  background-color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  padding: 16px !important;
+}
+
+/* Text Styles */
+.webgis-panel h4,
+.webgis-panel p,
+.webgis-panel label,
+.webgis-panel span,
+.webgis-panel select,
+.webgis-panel option {
+  color: #000000 !important;
+  font-weight: 500 !important;
+}
+
+/* Heading Style */
+.webgis-heading {
+  color: #000000 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+}
+
+/* Label Style */
+.webgis-label {
+  color: #000000 !important;
+  font-size: 14px !important;
+  margin-bottom: 4px !important;
+  display: block !important;
+}
+
+/* Select Style */
+.webgis-select {
+  width: 100% !important;
+  padding: 6px !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 4px !important;
+  background-color: white !important;
+  color: #000000 !important;
+  margin-bottom: 12px !important;
+}
+
+/* Layer Control Style */
+.webgis-layer-control {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 8px !important;
+  color: #000000 !important;
+}
+
+.webgis-layer-control span {
+  color: #000000 !important;
+  margin-left: 8px !important;
+  font-size: 14px !important;
+}
+
+.map-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.control-panel h3 {
+  margin: 15px 0 10px;
+  color: #444;
+  font-size: 1.2rem;
+}
+
+.district-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+  flex-grow: 1;
+  position: relative;
+  height: 100%;
+  min-height: 500px;
+}
+
+.layer-controls {
+  margin: 15px 0;
+}
+
+.layer-control {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.layer-control input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.search-box {
+  margin: 15px 0;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.button:hover {
+  background: #45a049;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass-morphic elements */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 15px;
+}
+
+.info-window {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.info-window h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.info-window p {
+  margin: 5px 0;
+  font-size: 14px;
+}

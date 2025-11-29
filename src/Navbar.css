@@ -1,0 +1,180 @@
+/* Navbar Styles */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    backdrop-filter: blur(20px) saturate(1.8);
+    background: rgba(20, 30, 25, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transform: translateY(-100%);
+    animation: slideDown 1s ease forwards;
+}
+
+.nav .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    color: #39ff88;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu a {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    position: relative;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 1px;
+    background: #39ff88;
+    transition: width 0.25s ease;
+}
+
+.menu a:hover {
+    opacity: 1;
+    color: #66ffb2;
+}
+
+.menu a:hover::after {
+    width: 100%;
+}
+
+.login {
+    color: #39ff88 !important;
+    border: 1px solid rgba(57, 255, 136, 0.3);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    font-size: 13px;
+}
+
+.login:hover {
+    background: rgba(57, 255, 136, 0.08);
+    border-color: #39ff88;
+}
+
+/* Mobile menu toggle button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 52;
+}
+
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 24px;
+}
+
+.menu-icon span {
+    display: block;
+    height: 2px;
+    background: #f5f5f5;
+    transition: all 0.3s ease;
+    border-radius: 1px;
+}
+
+/* Animations */
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu {
+        gap: 16px;
+    }
+    
+    .menu a {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 640px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(20, 30, 25, 0.95);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 30px 30px;
+        gap: 24px;
+        transition: right 0.3s ease;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .menu.menu-open {
+        right: 0;
+    }
+    
+    .menu a {
+        font-size: 16px;
+        width: 100%;
+        padding: 8px 0;
+    }
+    
+    .login {
+        margin-top: 20px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    /* Hamburger animation */
+    .menu-open ~ .menu-toggle .menu-icon span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .menu-open ~ .menu-toggle .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-open ~ .menu-toggle .menu-icon span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+}
